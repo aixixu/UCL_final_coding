@@ -4,9 +4,11 @@ from sklearn.metrics import classification_report, accuracy_score, confusion_mat
 import src.utils
 src.utils.gpu_setup()
 from omegaconf import OmegaConf
-conf = OmegaConf.load("./../podcast-dataset/config.yaml")
+conf = OmegaConf.load("config.yaml")
 
-def crea_binary_deep_learning_model(feature_num, target_num):
+# creat a deep learning model for binary classification
+# input feature nums and output nums
+def creat_binary_deep_learning_model(feature_num, target_num):
     model = keras.models.Sequential()
     model.add(keras.layers.Flatten(input_shape=[feature_num,]))
     model.add(keras.layers.Dense(500, activation = "relu"))
@@ -15,7 +17,9 @@ def crea_binary_deep_learning_model(feature_num, target_num):
     model.add(keras.layers.Dense(target_num, activation = "sigmoid"))
     return model
 
-def crea_multi_deep_learning_model(feature_num, target_num):
+# creat a deep learning model for multikill classification
+
+def creat_multi_deep_learning_model(feature_num, target_num):
     model = keras.models.Sequential()
     model.add(keras.layers.Flatten(input_shape=[feature_num,]))
     model.add(keras.layers.Dense(500, activation = "relu"))
@@ -24,6 +28,7 @@ def crea_multi_deep_learning_model(feature_num, target_num):
     model.add(keras.layers.Dense(target_num, activation = "softmax"))
     return model
 
+# get the metrics for binary classification
 def metrics_dl_model_binary(y_test, y_predict):
     acc = accuracy_score(y_test, y_predict)
     f1 = f1_score(y_test, y_predict)
@@ -31,6 +36,7 @@ def metrics_dl_model_binary(y_test, y_predict):
     re = recall_score(y_test, y_predict)
     return acc, f1, pr, re
 
+# get the metrics for multi classification
 def metrics_dl_model_multi(y_test, y_predict):
     f1 = f1_score(y_test, y_predict, average='macro')
     pr = precision_score(y_test, y_predict, average='macro')

@@ -52,6 +52,8 @@ def select_features(feature_df,features_to_be_selected):
     return feature_df[features_to_be_selected]
 
 # get three class by input class name without null value
+# we have three class entertaining subjective and discussion
+# every class have a columns on raw data
 def get_filter_label(labeled_dataframe, class_name):
     labeled_list_filter =  [elem for elem in labeled_dataframe[class_name].tolist() if elem != "['']" and elem != '[]' and elem != "['NA']"]
     return labeled_list_filter

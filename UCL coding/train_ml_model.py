@@ -17,7 +17,7 @@ param_grid_sgd ={'alpha':(0.00001, 0.0001, 0.001, 0.01, 0.1), 'max_iter': (100, 
 # RF params for grid search
 param_grid_rf ={'n_estimators':range(10,71,5), 'criterion':('gini', 'entropy'), 'max_features':('auto', 'sqrt', 'log2'), 'class_weight' :('balanced', 'balanced_subsample')}
 '''
-
+# grid search for every machine learning model
 def choose_best_params(classifier, param_dict, X_train, y_train, scoring='accuracy'):
     param_grid_input = param_dict
     if(classifier == 'KNN'):
@@ -44,6 +44,7 @@ def choose_best_params(classifier, param_dict, X_train, y_train, scoring='accura
         raise ValueError("Incorrect data format, please input 'SVM' or 'KNN' or 'RF' or 'SGD'")
     return best_score, best_params
 
+# train a knn binary classifier return metrics
 def knn_binary_classifier(X_train, X_test, y_train, y_test, n_neighbors, weights, algorithm, leaf_size):
     knn_clf = KNeighborsClassifier(n_neighbors=n_neighbors, weights=weights, leaf_size=leaf_size, algorithm=algorithm)
     cross_score = cross_val_score(knn_clf, X_train, y_train, cv=4)
@@ -56,7 +57,7 @@ def knn_binary_classifier(X_train, X_test, y_train, y_test, n_neighbors, weights
     fpr, tpr, thersholds = roc_curve(y_test, y_test_prob, pos_label=1)
     return cross_score, conf_mx, f1, p, r, fpr, tpr
     
-
+# train a svm binary classifier return metrics
 def svm_binary_classifier(X_train, X_test, y_train, y_test, gamma, C, kernel):
     svm_clf = SVC(probability=True, gamma=gamma, C=C, kernel=kernel) 
     cross_score = cross_val_score(svm_clf, X_train, y_train, cv=4)
@@ -69,6 +70,7 @@ def svm_binary_classifier(X_train, X_test, y_train, y_test, gamma, C, kernel):
     fpr, tpr, thersholds = roc_curve(y_test, y_test_prob, pos_label=1)
     return cross_score, conf_mx, f1, p, r, fpr, tpr
 
+# train a sgd binary classifier return metrics
 def sgd_binary_classifier(X_train, X_test, y_train, y_test, max_iter, loss, alpha, learning_rate):
     sgd_clf = SGDClassifier(class_weight='balanced', eta0=0.0001, max_iter=max_iter, loss=loss, alpha=alpha, learning_rate=learning_rate)
     cross_score = cross_val_score(sgd_clf, X_train, y_train, cv=4)
@@ -81,6 +83,7 @@ def sgd_binary_classifier(X_train, X_test, y_train, y_test, max_iter, loss, alph
     fpr, tpr, thersholds = roc_curve(y_test, y_test_prob, pos_label=1)
     return cross_score, conf_mx, f1, p, r, fpr, tpr
     
+# train a rf binary classifier return metrics    
 def rf_binary_classifier(X_train, X_test, y_train, y_test, class_weight, criterion, max_features, n_estimators):
     rf_clf= RandomForestClassifier(class_weight=class_weight, criterion=criterion, max_features=max_features, n_estimators=n_estimators)
     cross_score = cross_val_score(rf_clf, X_train, y_train, cv=4)
@@ -93,7 +96,7 @@ def rf_binary_classifier(X_train, X_test, y_train, y_test, class_weight, criteri
     fpr, tpr, thersholds = roc_curve(y_test, y_test_prob, pos_label=1)
     return cross_score, conf_mx, f1, p, r, fpr, tpr
     
-    
+# train a knn multi classifier return metrics    
 def knn_multi_classifier(X_train, X_test, y_train, y_test, n_neighbors, weights, algorithm, leaf_size):
     knn_clf = KNeighborsClassifier(n_neighbors=n_neighbors, weights=weights, leaf_size=leaf_size, algorithm=algorithm)
     cross_score = cross_val_score(knn_clf, X_train, y_train, cv=4)
@@ -105,7 +108,8 @@ def knn_multi_classifier(X_train, X_test, y_train, y_test, n_neighbors, weights,
     r = recall_score(y_test, y_test_pred, average='macro')
     kappa = cohen_kappa_score(y_test, y_test_pred)
     return cross_score, conf_mx, f1, p, r, kappa
-    
+
+# train a svm binary classifier return metrics    
 def svm_multi_classifier(X_train, X_test, y_train, y_test, gamma, C, kernel):
     svm_clf = SVC(gamma=gamma, C=C, kernel=kernel) 
     cross_score = cross_val_score(svm_clf, X_train, y_train, cv=4)
@@ -119,6 +123,7 @@ def svm_multi_classifier(X_train, X_test, y_train, y_test, gamma, C, kernel):
     kappa = cohen_kappa_score(y_test,y_test_pred)
     return cross_score, conf_mx, f1, p, r, kappa
 
+# train a sgd binary classifier return metrics
 def sgd_multi_classifier(X_train, X_test, y_train, y_test, max_iter, loss, alpha, learning_rate):
     sgd_clf = SGDClassifier(class_weight='balanced', eta0=0.0001, max_iter=max_iter, loss=loss, alpha=alpha, learning_rate=learning_rate)
     cross_score = cross_val_score(sgd_clf, X_train, y_train, cv=4)
@@ -130,7 +135,8 @@ def sgd_multi_classifier(X_train, X_test, y_train, y_test, max_iter, loss, alpha
     r = recall_score(y_test, y_test_pred, average='macro')
     kappa = cohen_kappa_score(y_test,y_test_pred)
     return cross_score, conf_mx, f1, p, r, kappa
-    
+
+# train a rf binary classifier return metrics    
 def rf_multi_classifier(X_train, X_test, y_train, y_test, class_weight, criterion, max_features, n_estimators):
     rf_clf = RandomForestClassifier(class_weight=class_weight, criterion=criterion, max_features=max_features, n_estimators=n_estimators)
     cross_score = cross_val_score(rf_clf, X_train, y_train, cv=4)

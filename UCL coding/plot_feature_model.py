@@ -30,6 +30,7 @@ def plot_data(input_df, save_path):
     fig.savefig(save_path, bbox_inches='tight')
 
 # plot raw minmax standar feature
+# plot how to normalize
 def plot_raw_minmax_stand(input_df, label_list,savename):
     save_raw_path = savename + '_raw.png'
     save_minmax_path = savename + '_minmax.png'

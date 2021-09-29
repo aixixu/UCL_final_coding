@@ -8,6 +8,7 @@ from load_data import *
 from plot_feature_model import *
 
 # add final class label
+# final means it will be used as input for model training
 def add_final_class_label(input_df, label_df):
     final_df = input_df.copy()
     final_df['label'] = pd.Series(label_df)
@@ -55,6 +56,7 @@ def binary_class_add_label(labe_list, postive_content):
     return labe_list_binary
 
 # multi class add label
+# remove the extra punctuation and keep only the numbers
 def multi_class_add_label(input_label):
     input_label_transfer = []
     for elem in input_label:
